@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 FIFA World Cup 第一輪小組賽台灣時間表</title>
+  <style>
+    :root {
+      --ink: #17202a;
+      --muted: #5e6c7a;
+      --line: #d9e0e7;
+      --paper: #f7f9fb;
+      --surface: #ffffff;
+      --accent: #0f766e;
+      --accent-ink: #063b36;
+      --gold: #b7791f;
+      --rose: #be123c;
+      --blue: #1d4ed8;
+      --green: #15803d;
+      --shadow: 0 12px 30px rgba(16, 24, 40, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      width: min(1440px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mark {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(24px, 3.4vw, 42px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .source-note {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+      max-width: 520px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: minmax(260px, 1.1fr) minmax(300px, 1.9fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .panel,
+    .group-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .lead-panel {
+      padding: 20px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .kpi {
+      min-height: 82px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfd;
+    }
+
+    .kpi strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .kpi span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .time-note {
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: #e9f7f5;
+      color: var(--accent-ink);
+      border-radius: 0 8px 8px 0;
+      font-weight: 700;
+    }
+
+    .timeline-panel {
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .date-strip {
+      display: grid;
+      grid-template-columns: repeat(17, minmax(38px, 1fr));
+      gap: 5px;
+      min-height: 130px;
+      align-items: end;
+    }
+
+    .date-col {
+      display: grid;
+      gap: 6px;
+      align-content: end;
+      min-width: 0;
+    }
+
+    .date-col time {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .tick-stack {
+      display: grid;
+      gap: 3px;
+      align-content: end;
+      min-height: 90px;
+      padding: 4px;
+      border-radius: 7px;
+      background: #eef3f7;
+    }
+
+    .tick {
+      height: 10px;
+      border-radius: 2px;
+      background: var(--accent);
+    }
+
+    .tick.night {
+      background: var(--blue);
+    }
+
+    .tick.morning {
+      background: var(--gold);
+    }
+
+    .controls {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: minmax(180px, 240px) minmax(220px, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      margin: 16px 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    label {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    select,
+    input[type="search"] {
+      min-height: 42px;
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 12px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+      font-weight: 700;
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--ink);
+      background: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .toggle input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
+    .result-status {
+      display: none;
+      margin: -4px 0 16px;
+      padding: 12px 14px;
+      border: 1px solid #b7d7d1;
+      border-radius: 8px;
+      color: var(--accent-ink);
+      background: #eefaf8;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .result-status strong {
+      color: var(--accent);
+    }
+
+    .groups {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .group-card {
+      padding: 14px;
+      box-shadow: none;
+    }
+
+    .group-card header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .group-letter {
+      display: inline-grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--accent);
+      font-weight: 900;
+    }
+
+    .group-card small {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .team-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .team-item {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .code {
+      display: inline-grid;
+      min-width: 42px;
+      height: 28px;
+      place-items: center;
+      border-radius: 6px;
+      color: #fff;
+      background: #334155;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .team-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 800;
+    }
+
+    .match-section {
+      display: grid;
+      gap: 18px;
+    }
+
+    .group-block {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .group-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #f8fafc;
+    }
+
+    .group-heading h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .group-heading span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 960px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      color: var(--muted);
+      background: #fff;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    td {
+      font-weight: 700;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .match-no {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .taiwan-date {
+      color: var(--accent-ink);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .taiwan-time {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 68px;
+      min-height: 34px;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--accent);
+      font-size: 17px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .taiwan-time.night {
+      background: var(--blue);
+    }
+
+    .taiwan-time.morning {
+      background: var(--gold);
+    }
+
+    .matchup {
+      display: grid;
+      grid-template-columns: minmax(120px, 1fr) auto minmax(120px, 1fr);
+      gap: 10px;
+      align-items: center;
+      max-width: 520px;
+    }
+
+    .side {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .side.away {
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .versus {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .venue {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .et {
+      color: var(--muted);
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .empty {
+      display: none;
+      padding: 24px;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      background: #fff;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .sources {
+      margin-top: 20px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .sources ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    @media (max-width: 1020px) {
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .groups {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .controls {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 20px, 1440px);
+        padding-top: 14px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .source-note {
+        text-align: left;
+      }
+
+      .kpis,
+      .groups,
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      .date-strip {
+        grid-template-columns: repeat(9, minmax(42px, 1fr));
+      }
+
+      .matchup {
+        grid-template-columns: minmax(130px, 1fr);
+        gap: 6px;
+      }
+
+      .side.away {
+        justify-content: flex-start;
+        text-align: left;
+      }
+
+      .versus {
+        padding-left: 50px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .controls,
+      .timeline-panel {
+        display: none;
+      }
+
+      .panel,
+      .group-card,
+      .group-block,
+      .sources {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .groups {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      table {
+        min-width: 0;
+        font-size: 11px;
+      }
+
+      th,
+      td {
+        padding: 7px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topbar">
+      <div class="brand">
+        <div class="mark">26</div>
+        <div>
+          <small>FIFA World Cup 2026</small>
+          <h1>第一輪小組賽台灣時間表</h1>
+        </div>
+      </div>
+      <p class="source-note">資料版本：FIFA 官方賽程 PDF，2026-04-10。原始時間為 Eastern Time；台灣時間以 ET + 12 小時計算。</p>
+    </div>
+
+    <section class="summary">
+      <div class="panel lead-panel">
+        <div class="kpis">
+          <div class="kpi"><strong id="teamCount">48</strong><span>參賽隊伍</span></div>
+          <div class="kpi"><strong id="groupCount">12</strong><span>分組 A-L</span></div>
+          <div class="kpi"><strong id="matchCount">72</strong><span>第一輪賽事</span></div>
+          <div class="kpi"><strong>6/12-6/28</strong><span>台灣收看日期</span></div>
+        </div>
+        <div class="time-note">台灣沒有日光節約時間；本頁固定使用 Asia/Taipei、UTC+8。</div>
+      </div>
+      <div class="panel timeline-panel">
+        <div class="section-title">
+          <h2>台灣時間分布</h2>
+          <span>每格代表當日賽事量</span>
+        </div>
+        <div class="date-strip" id="dateStrip" aria-label="台灣時間日期分布"></div>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="篩選工具">
+      <label>
+        組別
+        <select id="groupFilter">
+          <option value="all">全部組別</option>
+        </select>
+      </label>
+      <label>
+        隊伍
+        <select id="teamSearch">
+          <option value="">全部隊伍</option>
+        </select>
+      </label>
+      <label class="toggle">
+        <input id="quietHours" type="checkbox">
+        深夜 / 早晨
+      </label>
+    </section>
+
+    <div class="result-status" id="resultStatus"></div>
+
+    <section id="groupsOverview">
+      <div class="section-title">
+        <h2>第一輪參與隊伍</h2>
+        <span>12 組，每組 4 隊</span>
+      </div>
+      <div class="groups" id="groupsGrid"></div>
+    </section>
+
+    <section class="match-section" id="matchSection" aria-live="polite"></section>
+    <div class="empty" id="emptyState">目前篩選條件沒有符合的賽事。</div>
+
+    <section class="sources">
+      <strong>來源與註記</strong>
+      <ul>
+        <li><a href="https://digitalhub.fifa.com/asset/4b5d4417-3343-4732-9cdf-14b6662af407/FWC26-Match-Schedule_English.pdf">FIFA 官方賽程 PDF</a></li>
+        <li><a href="https://quality.fifa.com/organisation/media-releases/updated-world-cup-2026-match-schedule-venues-kick-off-times-104-matches">FIFA 賽程公告</a></li>
+        <li><a href="https://worldcuply.com/schedule.html">WorldCuply 完整賽程交叉檢查</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const groups = {
+      A: [
+        { code: "MEX", zh: "墨西哥" },
+        { code: "RSA", zh: "南非" },
+        { code: "KOR", zh: "韓國" },
+        { code: "CZE", zh: "捷克" }
+      ],
+      B: [
+        { code: "CAN", zh: "加拿大" },
+        { code: "BIH", zh: "波士尼亞與赫塞哥維納" },
+        { code: "QAT", zh: "卡達" },
+        { code: "SUI", zh: "瑞士" }
+      ],
+      C: [
+        { code: "BRA", zh: "巴西" },
+        { code: "MAR", zh: "摩洛哥" },
+        { code: "HAI", zh: "海地" },
+        { code: "SCO", zh: "蘇格蘭" }
+      ],
+      D: [
+        { code: "USA", zh: "美國" },
+        { code: "PAR", zh: "巴拉圭" },
+        { code: "AUS", zh: "澳洲" },
+        { code: "TUR", zh: "土耳其" }
+      ],
+      E: [
+        { code: "GER", zh: "德國" },
+        { code: "CUW", zh: "庫拉索" },
+        { code: "CIV", zh: "象牙海岸" },
+        { code: "ECU", zh: "厄瓜多" }
+      ],
+      F: [
+        { code: "NED", zh: "荷蘭" },
+        { code: "JPN", zh: "日本" },
+        { code: "SWE", zh: "瑞典" },
+        { code: "TUN", zh: "突尼西亞" }
+      ],
+      G: [
+        { code: "BEL", zh: "比利時" },
+        { code: "EGY", zh: "埃及" },
+        { code: "IRN", zh: "伊朗" },
+        { code: "NZL", zh: "紐西蘭" }
+      ],
+      H: [
+        { code: "ESP", zh: "西班牙" },
+        { code: "CPV", zh: "維德角" },
+        { code: "KSA", zh: "沙烏地阿拉伯" },
+        { code: "URU", zh: "烏拉圭" }
+      ],
+      I: [
+        { code: "FRA", zh: "法國" },
+        { code: "SEN", zh: "塞內加爾" },
+        { code: "IRQ", zh: "伊拉克" },
+        { code: "NOR", zh: "挪威" }
+      ],
+      J: [
+        { code: "ARG", zh: "阿根廷" },
+        { code: "ALG", zh: "阿爾及利亞" },
+        { code: "AUT", zh: "奧地利" },
+        { code: "JOR", zh: "約旦" }
+      ],
+      K: [
+        { code: "POR", zh: "葡萄牙" },
+        { code: "COD", zh: "剛果民主共和國" },
+        { code: "UZB", zh: "烏茲別克" },
+        { code: "COL", zh: "哥倫比亞" }
+      ],
+      L: [
+        { code: "ENG", zh: "英格蘭" },
+        { code: "CRO", zh: "克羅埃西亞" },
+        { code: "GHA", zh: "迦納" },
+        { code: "PAN", zh: "巴拿馬" }
+      ]
+    };
+
+    const matches = [
+      { no: 1, group: "A", etDate: "2026-06-11", etTime: "15:00", home: "MEX", away: "RSA", venue: "墨西哥城" },
+      { no: 2, group: "A", etDate: "2026-06-11", etTime: "22:00", home: "KOR", away: "CZE", venue: "瓜達拉哈拉" },
+      { no: 3, group: "B", etDate: "2026-06-12", etTime: "15:00", home: "CAN", away: "BIH", venue: "多倫多" },
+      { no: 4, group: "D", etDate: "2026-06-12", etTime: "21:00", home: "USA", away: "PAR", venue: "洛杉磯" },
+      { no: 6, group: "D", etDate: "2026-06-13", etTime: "00:00", home: "AUS", away: "TUR", venue: "溫哥華" },
+      { no: 8, group: "B", etDate: "2026-06-13", etTime: "15:00", home: "QAT", away: "SUI", venue: "舊金山灣區" },
+      { no: 7, group: "C", etDate: "2026-06-13", etTime: "18:00", home: "BRA", away: "MAR", venue: "紐約 / 紐澤西" },
+      { no: 5, group: "C", etDate: "2026-06-13", etTime: "21:00", home: "HAI", away: "SCO", venue: "波士頓" },
+      { no: 10, group: "E", etDate: "2026-06-14", etTime: "13:00", home: "GER", away: "CUW", venue: "休士頓" },
+      { no: 11, group: "F", etDate: "2026-06-14", etTime: "16:00", home: "NED", away: "JPN", venue: "達拉斯" },
+      { no: 9, group: "E", etDate: "2026-06-14", etTime: "19:00", home: "CIV", away: "ECU", venue: "費城" },
+      { no: 12, group: "F", etDate: "2026-06-14", etTime: "22:00", home: "SWE", away: "TUN", venue: "蒙特雷" },
+      { no: 14, group: "H", etDate: "2026-06-15", etTime: "12:00", home: "ESP", away: "CPV", venue: "亞特蘭大" },
+      { no: 16, group: "G", etDate: "2026-06-15", etTime: "15:00", home: "BEL", away: "EGY", venue: "西雅圖" },
+      { no: 13, group: "H", etDate: "2026-06-15", etTime: "18:00", home: "KSA", away: "URU", venue: "邁阿密" },
+      { no: 15, group: "G", etDate: "2026-06-15", etTime: "21:00", home: "IRN", away: "NZL", venue: "洛杉磯" },
+      { no: 17, group: "I", etDate: "2026-06-16", etTime: "15:00", home: "FRA", away: "SEN", venue: "紐約 / 紐澤西" },
+      { no: 18, group: "I", etDate: "2026-06-16", etTime: "18:00", home: "IRQ", away: "NOR", venue: "波士頓" },
+      { no: 19, group: "J", etDate: "2026-06-16", etTime: "21:00", home: "ARG", away: "ALG", venue: "堪薩斯城" },
+      { no: 20, group: "J", etDate: "2026-06-17", etTime: "00:00", home: "AUT", away: "JOR", venue: "舊金山灣區" },
+      { no: 23, group: "K", etDate: "2026-06-17", etTime: "13:00", home: "POR", away: "COD", venue: "休士頓" },
+      { no: 22, group: "L", etDate: "2026-06-17", etTime: "16:00", home: "ENG", away: "CRO", venue: "達拉斯" },
+      { no: 21, group: "L", etDate: "2026-06-17", etTime: "19:00", home: "GHA", away: "PAN", venue: "多倫多" },
+      { no: 24, group: "K", etDate: "2026-06-17", etTime: "22:00", home: "UZB", away: "COL", venue: "墨西哥城" },
+      { no: 25, group: "A", etDate: "2026-06-18", etTime: "12:00", home: "CZE", away: "RSA", venue: "亞特蘭大" },
+      { no: 26, group: "B", etDate: "2026-06-18", etTime: "15:00", home: "SUI", away: "BIH", venue: "洛杉磯" },
+      { no: 27, group: "B", etDate: "2026-06-18", etTime: "18:00", home: "CAN", away: "QAT", venue: "溫哥華" },
+      { no: 28, group: "A", etDate: "2026-06-18", etTime: "21:00", home: "MEX", away: "KOR", venue: "瓜達拉哈拉" },
+      { no: 32, group: "D", etDate: "2026-06-19", etTime: "15:00", home: "USA", away: "AUS", venue: "西雅圖" },
+      { no: 30, group: "C", etDate: "2026-06-19", etTime: "18:00", home: "SCO", away: "MAR", venue: "波士頓" },
+      { no: 29, group: "C", etDate: "2026-06-19", etTime: "20:30", home: "BRA", away: "HAI", venue: "費城" },
+      { no: 31, group: "D", etDate: "2026-06-19", etTime: "23:00", home: "TUR", away: "PAR", venue: "舊金山灣區" },
+      { no: 35, group: "F", etDate: "2026-06-20", etTime: "13:00", home: "NED", away: "SWE", venue: "休士頓" },
+      { no: 33, group: "E", etDate: "2026-06-20", etTime: "16:00", home: "GER", away: "CIV", venue: "多倫多" },
+      { no: 34, group: "E", etDate: "2026-06-20", etTime: "20:00", home: "ECU", away: "CUW", venue: "堪薩斯城" },
+      { no: 36, group: "F", etDate: "2026-06-21", etTime: "00:00", home: "TUN", away: "JPN", venue: "蒙特雷" },
+      { no: 38, group: "H", etDate: "2026-06-21", etTime: "12:00", home: "ESP", away: "KSA", venue: "亞特蘭大" },
+      { no: 39, group: "G", etDate: "2026-06-21", etTime: "15:00", home: "BEL", away: "IRN", venue: "洛杉磯" },
+      { no: 37, group: "H", etDate: "2026-06-21", etTime: "18:00", home: "URU", away: "CPV", venue: "邁阿密" },
+      { no: 40, group: "G", etDate: "2026-06-21", etTime: "21:00", home: "NZL", away: "EGY", venue: "溫哥華" },
+      { no: 43, group: "J", etDate: "2026-06-22", etTime: "13:00", home: "ARG", away: "AUT", venue: "達拉斯" },
+      { no: 42, group: "I", etDate: "2026-06-22", etTime: "17:00", home: "FRA", away: "IRQ", venue: "費城" },
+      { no: 41, group: "I", etDate: "2026-06-22", etTime: "20:00", home: "NOR", away: "SEN", venue: "紐約 / 紐澤西" },
+      { no: 44, group: "J", etDate: "2026-06-22", etTime: "23:00", home: "JOR", away: "ALG", venue: "舊金山灣區" },
+      { no: 47, group: "K", etDate: "2026-06-23", etTime: "13:00", home: "POR", away: "UZB", venue: "休士頓" },
+      { no: 45, group: "L", etDate: "2026-06-23", etTime: "16:00", home: "ENG", away: "GHA", venue: "波士頓" },
+      { no: 46, group: "L", etDate: "2026-06-23", etTime: "19:00", home: "PAN", away: "CRO", venue: "多倫多" },
+      { no: 48, group: "K", etDate: "2026-06-23", etTime: "22:00", home: "COL", away: "COD", venue: "瓜達拉哈拉" },
+      { no: 51, group: "B", etDate: "2026-06-24", etTime: "15:00", home: "SUI", away: "CAN", venue: "溫哥華" },
+      { no: 52, group: "B", etDate: "2026-06-24", etTime: "15:00", home: "BIH", away: "QAT", venue: "西雅圖" },
+      { no: 49, group: "C", etDate: "2026-06-24", etTime: "18:00", home: "SCO", away: "BRA", venue: "邁阿密" },
+      { no: 50, group: "C", etDate: "2026-06-24", etTime: "18:00", home: "MAR", away: "HAI", venue: "亞特蘭大" },
+      { no: 53, group: "A", etDate: "2026-06-24", etTime: "21:00", home: "CZE", away: "MEX", venue: "墨西哥城" },
+      { no: 54, group: "A", etDate: "2026-06-24", etTime: "21:00", home: "RSA", away: "KOR", venue: "蒙特雷" },
+      { no: 56, group: "E", etDate: "2026-06-25", etTime: "16:00", home: "ECU", away: "GER", venue: "紐約 / 紐澤西" },
+      { no: 55, group: "E", etDate: "2026-06-25", etTime: "16:00", home: "CUW", away: "CIV", venue: "費城" },
+      { no: 57, group: "F", etDate: "2026-06-25", etTime: "19:00", home: "JPN", away: "SWE", venue: "達拉斯" },
+      { no: 58, group: "F", etDate: "2026-06-25", etTime: "19:00", home: "TUN", away: "NED", venue: "堪薩斯城" },
+      { no: 59, group: "D", etDate: "2026-06-25", etTime: "22:00", home: "TUR", away: "USA", venue: "洛杉磯" },
+      { no: 60, group: "D", etDate: "2026-06-25", etTime: "22:00", home: "PAR", away: "AUS", venue: "舊金山灣區" },
+      { no: 61, group: "I", etDate: "2026-06-26", etTime: "15:00", home: "NOR", away: "FRA", venue: "波士頓" },
+      { no: 62, group: "I", etDate: "2026-06-26", etTime: "15:00", home: "SEN", away: "IRQ", venue: "多倫多" },
+      { no: 65, group: "H", etDate: "2026-06-26", etTime: "20:00", home: "CPV", away: "KSA", venue: "休士頓" },
+      { no: 66, group: "H", etDate: "2026-06-26", etTime: "20:00", home: "URU", away: "ESP", venue: "瓜達拉哈拉" },
+      { no: 63, group: "G", etDate: "2026-06-26", etTime: "23:00", home: "EGY", away: "IRN", venue: "西雅圖" },
+      { no: 64, group: "G", etDate: "2026-06-26", etTime: "23:00", home: "NZL", away: "BEL", venue: "溫哥華" },
+      { no: 67, group: "L", etDate: "2026-06-27", etTime: "17:00", home: "PAN", away: "ENG", venue: "紐約 / 紐澤西" },
+      { no: 68, group: "L", etDate: "2026-06-27", etTime: "17:00", home: "CRO", away: "GHA", venue: "費城" },
+      { no: 71, group: "K", etDate: "2026-06-27", etTime: "19:30", home: "COL", away: "POR", venue: "邁阿密" },
+      { no: 72, group: "K", etDate: "2026-06-27", etTime: "19:30", home: "COD", away: "UZB", venue: "亞特蘭大" },
+      { no: 69, group: "J", etDate: "2026-06-27", etTime: "22:00", home: "ALG", away: "AUT", venue: "堪薩斯城" },
+      { no: 70, group: "J", etDate: "2026-06-27", etTime: "22:00", home: "JOR", away: "ARG", venue: "達拉斯" }
+    ];
+
+    const teamByCode = Object.values(groups).flat().reduce((acc, team) => {
+      acc[team.code] = team;
+      return acc;
+    }, {});
+
+    const groupOrder = Object.keys(groups);
+    const formatter = new Intl.DateTimeFormat("zh-TW", {
+      timeZone: "Asia/Taipei",
+      month: "2-digit",
+      day: "2-digit",
+      weekday: "short"
+    });
+
+    function toTaiwan(match) {
+      const date = new Date(`${match.etDate}T${match.etTime}:00-04:00`);
+      return {
+        date,
+        dateLabel: formatter.format(date),
+        timeLabel: new Intl.DateTimeFormat("zh-TW", {
+          timeZone: "Asia/Taipei",
+          hour: "2-digit",
+          minute: "2-digit",
+          hourCycle: "h23"
+        }).format(date)
+      };
+    }
+
+    function getTimeClass(timeLabel) {
+      const hour = Number(timeLabel.slice(0, 2));
+      if (hour < 6) return "night";
+      if (hour < 10) return "morning";
+      return "";
+    }
+
+    function teamLabel(code) {
+      return teamByCode[code].zh;
+    }
+
+    function renderGroups() {
+      const grid = document.getElementById("groupsGrid");
+      grid.innerHTML = groupOrder.map(group => `
+        <article class="group-card" data-group-card="${group}">
+          <header>
+            <span class="group-letter">${group}</span>
+            <small>GROUP ${group}</small>
+          </header>
+          <ul class="team-list">
+            ${groups[group].map(team => `
+              <li class="team-item">
+                <span class="code">${team.code}</span>
+                <span class="team-name" title="${team.zh}">${team.zh}</span>
+              </li>
+            `).join("")}
+          </ul>
+        </article>
+      `).join("");
+    }
+
+    function renderFilters() {
+      const filter = document.getElementById("groupFilter");
+      filter.insertAdjacentHTML("beforeend", groupOrder.map(group => `<option value="${group}">Group ${group}</option>`).join(""));
+
+      const teamFilter = document.getElementById("teamSearch");
+      teamFilter.insertAdjacentHTML("beforeend", groupOrder.map(group => `
+        <optgroup label="Group ${group}">
+          ${groups[group].map(team => `<option value="${team.code}">${team.zh} (${team.code})</option>`).join("")}
+        </optgroup>
+      `).join(""));
+    }
+
+    function matchFits(match, selectedGroup, query, quietOnly) {
+      const taiwan = toTaiwan(match);
+      const timeClass = getTimeClass(taiwan.timeLabel);
+      const text = [
+        match.home,
+        match.away,
+        teamLabel(match.home),
+        teamLabel(match.away)
+      ].join(" ").toLowerCase();
+      const groupFits = query ? true : selectedGroup === "all" || match.group === selectedGroup;
+
+      return groupFits
+        && (!query || text.includes(query))
+        && (!quietOnly || timeClass === "night" || timeClass === "morning");
+    }
+
+    function renderMatches() {
+      const selectedGroup = document.getElementById("groupFilter").value;
+      const query = document.getElementById("teamSearch").value.trim().toLowerCase();
+      const quietOnly = document.getElementById("quietHours").checked;
+      const section = document.getElementById("matchSection");
+      const empty = document.getElementById("emptyState");
+      const groupsOverview = document.getElementById("groupsOverview");
+      const resultStatus = document.getElementById("resultStatus");
+
+      const filtered = matches.filter(match => matchFits(match, selectedGroup, query, quietOnly));
+      groupsOverview.style.display = query ? "none" : "";
+      resultStatus.style.display = query ? "block" : "none";
+      if (query) {
+        const activeGroups = [...new Set(filtered.map(match => `Group ${match.group}`))].join("、") || "無符合組別";
+        resultStatus.innerHTML = `隊伍 <strong>${escapeHtml(getSelectedTeamLabel())}</strong>：顯示 ${filtered.length} 場對戰，涵蓋 ${activeGroups}。選擇隊伍時會顯示該隊所有小組賽，不受組別選單限制。`;
+      }
+
+      section.innerHTML = groupOrder.map(group => {
+        const groupMatches = filtered.filter(match => match.group === group);
+        if (!groupMatches.length) return "";
+
+        return `
+          <article class="group-block">
+            <div class="group-heading">
+              <h3>Group ${group}</h3>
+              <span>${groups[group].map(team => team.zh).join(" / ")}</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>比賽</th>
+                    <th>台灣日期</th>
+                    <th>台灣時間</th>
+                    <th>對戰組合</th>
+                    <th>場地城市</th>
+                    <th>原始 ET</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${groupMatches.map(match => rowTemplate(match)).join("")}
+                </tbody>
+              </table>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      empty.style.display = filtered.length ? "none" : "block";
+    }
+
+    function escapeHtml(value) {
+      return value.replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[character]));
+    }
+
+    function getSelectedTeamLabel() {
+      const teamFilter = document.getElementById("teamSearch");
+      return teamFilter.selectedOptions[0]?.textContent || teamFilter.value;
+    }
+
+    function rowTemplate(match) {
+      const taiwan = toTaiwan(match);
+      const timeClass = getTimeClass(taiwan.timeLabel);
+      const home = teamByCode[match.home];
+      const away = teamByCode[match.away];
+
+      return `
+        <tr data-match="${match.no}">
+          <td class="match-no">Match ${String(match.no).padStart(2, "0")}</td>
+          <td class="taiwan-date">${taiwan.dateLabel}</td>
+          <td><span class="taiwan-time ${timeClass}">${taiwan.timeLabel}</span></td>
+          <td>
+            <div class="matchup">
+              <span class="side"><span class="code">${home.code}</span><span class="team-name">${home.zh}</span></span>
+              <span class="versus">VS</span>
+              <span class="side away"><span class="team-name">${away.zh}</span><span class="code">${away.code}</span></span>
+            </div>
+          </td>
+          <td class="venue">${match.venue}</td>
+          <td class="et">${match.etDate.slice(5).replace("-", "/")} ${match.etTime}</td>
+        </tr>
+      `;
+    }
+
+    function renderDateStrip() {
+      const strip = document.getElementById("dateStrip");
+      const buckets = matches.reduce((acc, match) => {
+        const taiwan = toTaiwan(match);
+        const key = taiwan.date.toLocaleDateString("sv-SE", { timeZone: "Asia/Taipei" });
+        acc[key] = acc[key] || [];
+        acc[key].push(match);
+        return acc;
+      }, {});
+
+      strip.innerHTML = Object.entries(buckets).map(([dateKey, dayMatches]) => {
+        const date = new Date(`${dateKey}T00:00:00+08:00`);
+        const label = new Intl.DateTimeFormat("zh-TW", {
+          timeZone: "Asia/Taipei",
+          month: "2-digit",
+          day: "2-digit"
+        }).format(date);
+        return `
+          <div class="date-col">
+            <div class="tick-stack">
+              ${dayMatches.map(match => {
+                const cls = getTimeClass(toTaiwan(match).timeLabel);
+                return `<span class="tick ${cls}" title="Match ${match.no}"></span>`;
+              }).join("")}
+            </div>
+            <time>${label}</time>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function verifyData() {
+      const groupCount = Object.keys(groups).length;
+      const teamCount = Object.values(groups).reduce((sum, group) => sum + group.length, 0);
+      const matchCount = matches.length;
+      const checks = [
+        groupCount === 12,
+        teamCount === 48,
+        matchCount === 72,
+        toTaiwan(matches.find(match => match.no === 1)).dateLabel.includes("06/12"),
+        toTaiwan(matches.find(match => match.no === 57)).timeLabel === "07:00",
+        toTaiwan(matches.find(match => match.no === 22)).timeLabel === "04:00"
+      ];
+
+      document.getElementById("groupCount").textContent = String(groupCount);
+      document.getElementById("teamCount").textContent = String(teamCount);
+      document.getElementById("matchCount").textContent = String(matchCount);
+
+      if (!checks.every(Boolean)) {
+        console.warn("World Cup data verification needs review.", checks);
+      }
+    }
+
+    renderGroups();
+    renderFilters();
+    renderDateStrip();
+    renderMatches();
+    verifyData();
+
+    document.getElementById("groupFilter").addEventListener("change", renderMatches);
+    document.getElementById("teamSearch").addEventListener("change", renderMatches);
+    document.getElementById("quietHours").addEventListener("change", renderMatches);
+  </script>
+</body>
+</html>
