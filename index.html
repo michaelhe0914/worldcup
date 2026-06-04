@@ -755,8 +755,21 @@
     }
 
     .venue {
+      display: grid;
+      gap: 2px;
+      min-width: 180px;
       color: var(--muted);
       font-size: 13px;
+      font-weight: 700;
+    }
+
+    .venue-city {
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .venue-stadium {
+      color: var(--muted);
       font-weight: 700;
     }
 
@@ -1033,6 +1046,7 @@
       <ul>
         <li><a href="https://digitalhub.fifa.com/asset/4b5d4417-3343-4732-9cdf-14b6662af407/FWC26-Match-Schedule_English.pdf" target="_blank" rel="noopener">FIFA 官方賽程 PDF</a></li>
         <li><a href="https://quality.fifa.com/organisation/media-releases/updated-world-cup-2026-match-schedule-venues-kick-off-times-104-matches" target="_blank" rel="noopener">FIFA 賽程公告</a></li>
+        <li><a href="https://gpcustomersupportfwc2026.tickets.fifa.com/hc/en-gb/articles/28784010437021-2-What-are-the-official-addresses-stadium-capacities-and-maps-of-the-FIFA-World-Cup-2026-stadiums" target="_blank" rel="noopener">FIFA 官方場館資料</a></li>
         <li><a href="https://worldcuply.com/schedule.html" target="_blank" rel="noopener">Worldcuply 完整賽程交叉檢查</a></li>
       </ul>
     </section>
@@ -1254,10 +1268,29 @@
       };
     }
 
+    const stadiumByVenue = Object.freeze({
+      "墨西哥城": "Mexico City Stadium",
+      "瓜達拉哈拉": "Guadalajara Stadium",
+      "多倫多": "Toronto Stadium",
+      "洛杉磯": "Los Angeles Stadium",
+      "溫哥華": "BC Place Vancouver",
+      "舊金山灣區": "San Francisco Bay Area Stadium",
+      "紐約 / 紐澤西": "New York New Jersey Stadium",
+      "波士頓": "Boston Stadium",
+      "休士頓": "Houston Stadium",
+      "達拉斯": "Dallas Stadium",
+      "費城": "Philadelphia Stadium",
+      "蒙特雷": "Monterrey Stadium",
+      "亞特蘭大": "Atlanta Stadium",
+      "西雅圖": "Seattle Stadium",
+      "邁阿密": "Miami Stadium",
+      "堪薩斯城": "Kansas City Stadium"
+    });
+
     // Pre-compute and cache Taiwan time on each match
     const matches = rawMatches.map(m => {
       const tw = computeTaiwan(m);
-      return { ...m, tw };
+      return { ...m, tw, stadium: stadiumByVenue[m.venue] || "" };
     });
 
     /* ── Utilities ──────────────────────────────────────── */
@@ -1354,7 +1387,9 @@
       const textFits = !query || [
         match.home, match.away,
         teamByCode[match.home].zh,
-        teamByCode[match.away].zh
+        teamByCode[match.away].zh,
+        match.venue,
+        match.stadium
       ].join(" ").toLowerCase().includes(query);
       const quietFits = !quietOnly || match.tw.timeClass === "night" || match.tw.timeClass === "morning";
 
@@ -1386,7 +1421,10 @@
               </span>
             </div>
           </td>
-          <td class="venue">${match.venue}</td>
+          <td class="venue">
+            <span class="venue-city">${match.venue}</span>
+            <span class="venue-stadium">${match.stadium || "待 FIFA 確認"}</span>
+          </td>
           <td class="et">${match.etDate.slice(5).replace("-", "/")} ${match.etTime}</td>
         </tr>
       `;
@@ -1440,7 +1478,7 @@
                     <th scope="col">台灣日期</th>
                     <th scope="col">台灣時間</th>
                     <th scope="col">對戰組合</th>
-                    <th scope="col">場地城市</th>
+                    <th scope="col">比賽場地</th>
                     <th scope="col">原始 ET</th>
                   </tr>
                 </thead>
@@ -1586,6 +1624,7 @@
           gc === 12,
           tc === 48,
           mc === 72,
+          matches.every(m => Boolean(m.stadium)),
           matches.find(m => m.no === 1).tw.dateLabel.includes("06/12"),
           matches.find(m => m.no === 57).tw.timeLabel === "07:00",
           matches.find(m => m.no === 22).tw.timeLabel === "04:00"
