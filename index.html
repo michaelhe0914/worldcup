@@ -1504,6 +1504,8 @@
       return el.selectedOptions[0]?.textContent || el.value;
     }
 
+    let todayOnlyKey = null; // 今日賽事模式：非 null 時僅顯示該日期 (dateKey) 的比賽
+
     function renderMatches() {
       const selectedGroup = document.getElementById("groupFilter").value;
       const query = document.getElementById("teamSearch").value.trim().toLowerCase();
@@ -1513,9 +1515,12 @@
       const overview = document.getElementById("groupsOverview");
       const status = document.getElementById("resultStatus");
 
-      const filtered = matches.filter(m => matchFits(m, selectedGroup, query, quietOnly));
-      overview.style.display = query ? "none" : "";
-      status.style.display = query ? "block" : "none";
+      let filtered = matches.filter(m => matchFits(m, selectedGroup, query, quietOnly));
+      if (todayOnlyKey) {
+        filtered = filtered.filter(m => m.tw.dateKey === todayOnlyKey);
+      }
+      overview.style.display = (query || todayOnlyKey) ? "none" : "";
+      status.style.display = (query || todayOnlyKey) ? "block" : "none";
 
       // Filter group overview cards
       if (!query) {
@@ -1527,6 +1532,9 @@
       if (query) {
         const activeGroups = [...new Set(filtered.map(m => `Group ${m.group}`))].join("、") || "無符合組別";
         status.innerHTML = `隊伍 <strong>${escapeHtml(getSelectedTeamLabel())}</strong>：顯示 ${filtered.length} 場對戰，涵蓋 ${activeGroups}。選擇隊伍時會顯示該隊所有小組賽，不受組別選單限制。`;
+      } else if (todayOnlyKey) {
+        const dayLabel = filtered[0]?.tw.dateLabel || todayOnlyKey;
+        status.innerHTML = `📅 <strong>今日賽事</strong>（${dayLabel}）：共 ${filtered.length} 場，僅顯示當日比賽。點選「顯示全部賽事」即可恢復完整賽程。`;
       }
 
       section.innerHTML = groupOrder.map(group => {
@@ -1639,6 +1647,14 @@
       const btn = document.getElementById("btnToday");
 
       btn.addEventListener("click", () => {
+        // 已在今日模式 → 再點一次切回完整賽程
+        if (todayOnlyKey) {
+          todayOnlyKey = null;
+          btn.textContent = "📅 今日賽事";
+          renderMatches();
+          return;
+        }
+
         // Reset filters
         document.getElementById("groupFilter").value = "all";
         document.getElementById("teamSearch").value = "";
@@ -1661,13 +1677,11 @@
           return;
         }
 
-        // Render all and scroll to first today match
+        // 進入今日模式：只渲染當日賽事
+        todayOnlyKey = todayKey;
+        btn.textContent = "🔄 顯示全部賽事";
         renderMatches();
-        const firstRow = document.querySelector(`[data-match="${todayMatches[0].no}"]`);
-        if (firstRow) {
-          firstRow.scrollIntoView({ behavior: "smooth", block: "center" });
-          firstRow.style.animation = "fadeInUp .5s ease";
-        }
+        document.getElementById("matchSection").scrollIntoView({ behavior: "smooth", block: "start" });
       });
     }
 
@@ -1723,9 +1737,16 @@
     initTodayButton();
     checkTimezone();
 
-    document.getElementById("groupFilter").addEventListener("change", renderMatches);
-    document.getElementById("teamSearch").addEventListener("change", renderMatches);
-    document.getElementById("quietHours").addEventListener("change", renderMatches);
+    // 更動任何篩選器時，自動退出「今日賽事」模式
+    ["groupFilter", "teamSearch", "quietHours"].forEach(id => {
+      document.getElementById(id).addEventListener("change", () => {
+        if (todayOnlyKey) {
+          todayOnlyKey = null;
+          document.getElementById("btnToday").textContent = "📅 今日賽事";
+        }
+        renderMatches();
+      });
+    });
 
   })();
   </script>
