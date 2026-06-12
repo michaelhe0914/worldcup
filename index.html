@@ -649,7 +649,7 @@
 
     table {
       width: 100%;
-      min-width: 920px;
+      min-width: 1010px;
       border-collapse: collapse;
     }
 
@@ -752,6 +752,45 @@
       color: var(--muted);
       font-size: 11px;
       font-weight: 900;
+    }
+
+    .score {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 86px;
+      min-height: 36px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .score-pending {
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: #f8fafc;
+    }
+
+    .score-done {
+      border: 1px solid #99f6e4;
+      color: var(--accent-ink);
+      background: var(--accent-light);
+    }
+
+    .score-value {
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .score-status {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .03em;
     }
 
     .venue {
@@ -1225,6 +1264,13 @@
       { no: 70, group: "J", etDate: "2026-06-27", etTime: "22:00", home: "JOR", away: "ARG", venue: "達拉斯" }
     ];
 
+    const resultsByMatch = Object.freeze({
+      // 比賽結束後填入比分（home = 主隊得分、away = 客隊得分、status 預設 "FT"）
+      // 範例：1: { home: 2, away: 1, status: "FT" }
+      1: { home: 2, away: 0, status: "FT" }, // 06/11 墨西哥 2-0 南非（揭幕戰）
+      2: { home: 2, away: 1, status: "FT" }  // 06/11 韓國 2-1 捷克
+    });
+
     /* ── Pre-compute Taiwan times ───────────────────────── */
     const teamByCode = Object.values(groups).flat().reduce((acc, team) => {
       acc[team.code] = team;
@@ -1290,7 +1336,7 @@
     // Pre-compute and cache Taiwan time on each match
     const matches = rawMatches.map(m => {
       const tw = computeTaiwan(m);
-      return { ...m, tw, stadium: stadiumByVenue[m.venue] || "" };
+      return { ...m, tw, stadium: stadiumByVenue[m.venue] || "", result: resultsByMatch[m.no] || null };
     });
 
     /* ── Utilities ──────────────────────────────────────── */
@@ -1309,6 +1355,26 @@
 
     function flagText(code) {
       return code; // Plain text fallback for <option> elements
+    }
+
+    function hasScore(result) {
+      return result
+        && Number.isFinite(Number(result.home))
+        && Number.isFinite(Number(result.away));
+    }
+
+    function scoreTemplate(match) {
+      if (!hasScore(match.result)) {
+        return '<span class="score score-pending">未賽</span>';
+      }
+
+      const status = match.result.status || "FT";
+      return `
+        <span class="score score-done" aria-label="比分 ${match.result.home} 比 ${match.result.away}">
+          <span class="score-value">${match.result.home} - ${match.result.away}</span>
+          <span class="score-status">${escapeHtml(status)}</span>
+        </span>
+      `;
     }
 
     /* ── Render: Groups Overview ────────────────────────── */
@@ -1389,7 +1455,8 @@
         teamByCode[match.home].zh,
         teamByCode[match.away].zh,
         match.venue,
-        match.stadium
+        match.stadium,
+        hasScore(match.result) ? `${match.result.home}-${match.result.away}` : ""
       ].join(" ").toLowerCase().includes(query);
       const quietFits = !quietOnly || match.tw.timeClass === "night" || match.tw.timeClass === "morning";
 
@@ -1421,6 +1488,7 @@
               </span>
             </div>
           </td>
+          <td>${scoreTemplate(match)}</td>
           <td class="venue">
             <span class="venue-city">${match.venue}</span>
             <span class="venue-stadium">${match.stadium || "待 FIFA 確認"}</span>
@@ -1478,6 +1546,7 @@
                     <th scope="col">台灣日期</th>
                     <th scope="col">台灣時間</th>
                     <th scope="col">對戰組合</th>
+                    <th scope="col">比分</th>
                     <th scope="col">比賽場地</th>
                     <th scope="col">原始 ET</th>
                   </tr>
@@ -1625,6 +1694,7 @@
           tc === 48,
           mc === 72,
           matches.every(m => Boolean(m.stadium)),
+          Object.keys(resultsByMatch).every(no => matches.some(m => String(m.no) === String(no))),
           matches.find(m => m.no === 1).tw.dateLabel.includes("06/12"),
           matches.find(m => m.no === 57).tw.timeLabel === "07:00",
           matches.find(m => m.no === 22).tw.timeLabel === "04:00"
