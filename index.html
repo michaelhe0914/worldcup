@@ -1270,7 +1270,11 @@
       1: { home: 2, away: 0, status: "FT" }, // 06/11 墨西哥 2-0 南非（揭幕戰）
       2: { home: 2, away: 1, status: "FT" }, // 06/11 韓國 2-1 捷克
       3: { home: 1, away: 1, status: "FT" }, // 06/12 加拿大 1-1 波士尼亞與赫塞哥維納
-      4: { home: 3, away: 0, status: "FT" }  // 06/12 美國 3-0 巴拉圭
+      4: { home: 3, away: 0, status: "FT" }, // 06/12 美國 3-0 巴拉圭
+      5: { home: 0, away: 1, status: "FT" }, // 06/13 海地 0-1 蘇格蘭
+      6: { home: 2, away: 0, status: "FT" }, // 06/13 澳洲 2-0 土耳其
+      7: { home: 1, away: 1, status: "FT" }, // 06/13 巴西 1-1 摩洛哥
+      8: { home: 1, away: 1, status: "FT" }  // 06/13 卡達 1-1 瑞士
     });
 
     /* ── Pre-compute Taiwan times ───────────────────────── */
@@ -1739,7 +1743,11 @@
     initTodayButton();
     checkTimezone();
 
-    document.getElementById("groupFilter").addEventListener("change", renderMatches);
+  })();
+  </script>
+</body>
+</html>
+").addEventListener("change", renderMatches);
     document.getElementById("teamSearch").addEventListener("change", renderMatches);
     document.getElementById("quietHours").addEventListener("change", renderMatches);
 
