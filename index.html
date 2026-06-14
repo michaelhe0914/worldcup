@@ -1008,7 +1008,7 @@
             <h1>第一輪小組賽<br>台灣時間表</h1>
           </div>
         </div>
-        <p class="hero-note">資料版本：FIFA 官方賽程 PDF，2026-04-10。原始時間為 Eastern Time；台灣時間以 ET + 12 小時計算。</p>
+        <p class="hero-note">資料版本：FIFA 官方賽程 PDF，2026-04-10。台灣時間為 UTC+8；「當地場館時間」依各場館所在時區換算（含夏令時間）。</p>
       </div>
       <div class="hero-kpis">
         <div class="hero-kpi"><strong id="teamCount">48</strong><span>參賽隊伍</span></div>
@@ -1339,10 +1339,41 @@
       "堪薩斯城": "Kansas City Stadium"
     });
 
+    // Venue -> IANA timezone (handles DST automatically for June 2026)
+    const tzByVenue = Object.freeze({
+      "墨西哥城": "America/Mexico_City",
+      "瓜達拉哈拉": "America/Mexico_City",
+      "蒙特雷": "America/Monterrey",
+      "多倫多": "America/Toronto",
+      "溫哥華": "America/Vancouver",
+      "洛杉磯": "America/Los_Angeles",
+      "舊金山灣區": "America/Los_Angeles",
+      "西雅圖": "America/Los_Angeles",
+      "紐約 / 紐澤西": "America/New_York",
+      "波士頓": "America/New_York",
+      "費城": "America/New_York",
+      "亞特蘭大": "America/New_York",
+      "邁阿密": "America/New_York",
+      "休士頓": "America/Chicago",
+      "達拉斯": "America/Chicago",
+      "堪薩斯城": "America/Chicago"
+    });
+
+    // Compute local stadium kickoff date/time in the venue's timezone
+    function computeLocal(match) {
+      const tz = tzByVenue[match.venue] || "America/New_York";
+      const date = new Date(`${match.etDate}T${match.etTime}:00-04:00`);
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: tz, month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", hourCycle: "h23"
+      }).formatToParts(date).reduce((a, p) => (a[p.type] = p.value, a), {});
+      return { dateLabel: `${parts.month}/${parts.day}`, timeLabel: `${parts.hour}:${parts.minute}` };
+    }
+
     // Pre-compute and cache Taiwan time on each match
     const matches = rawMatches.map(m => {
       const tw = computeTaiwan(m);
-      return { ...m, tw, stadium: stadiumByVenue[m.venue] || "", result: resultsByMatch[m.no] || null };
+      return { ...m, tw, local: computeLocal(m), stadium: stadiumByVenue[m.venue] || "", result: resultsByMatch[m.no] || null };
     });
 
     /* ── Utilities ──────────────────────────────────────── */
@@ -1499,7 +1530,7 @@
             <span class="venue-city">${match.venue}</span>
             <span class="venue-stadium">${match.stadium || "待 FIFA 確認"}</span>
           </td>
-          <td class="et">${match.etDate.slice(5).replace("-", "/")} ${match.etTime}</td>
+          <td class="et">${match.local.dateLabel} ${match.local.timeLabel}</td>
         </tr>
       `;
     }
@@ -1562,7 +1593,7 @@
                     <th scope="col">對戰組合</th>
                     <th scope="col">比分</th>
                     <th scope="col">比賽場地</th>
-                    <th scope="col">原始 ET</th>
+                    <th scope="col">當地場館時間</th>
                   </tr>
                 </thead>
                 <tbody>
