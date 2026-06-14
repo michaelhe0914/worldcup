@@ -1743,11 +1743,8 @@
     initTodayButton();
     checkTimezone();
 
-  })();
-  </script>
-</body>
-</html>
-").addEventListener("change", renderMatches);
+    // Filter dropdowns: bind change events so picking a team/group re-renders matches
+    document.getElementById("groupFilter").addEventListener("change", renderMatches);
     document.getElementById("teamSearch").addEventListener("change", renderMatches);
     document.getElementById("quietHours").addEventListener("change", renderMatches);
 
