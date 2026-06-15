@@ -1274,7 +1274,10 @@
       5: { home: 0, away: 1, status: "FT" }, // 06/13 海地 0-1 蘇格蘭
       6: { home: 2, away: 0, status: "FT" }, // 06/13 澳洲 2-0 土耳其
       7: { home: 1, away: 1, status: "FT" }, // 06/13 巴西 1-1 摩洛哥
-      8: { home: 1, away: 1, status: "FT" }  // 06/13 卡達 1-1 瑞士
+      8: { home: 1, away: 1, status: "FT" }, // 06/13 卡達 1-1 瑞士
+      10: { home: 7, away: 1, status: "FT" }, // 06/14 德國 7-1 庫拉索
+      11: { home: 2, away: 2, status: "FT" }, // 06/14 荷蘭 2-2 日本
+      9: { home: 1, away: 0, status: "FT" }  // 06/14 象牙海岸 1-0 厄瓜多
     });
 
     /* ── Pre-compute Taiwan times ───────────────────────── */
@@ -1778,6 +1781,7 @@
     document.getElementById("groupFilter").addEventListener("change", renderMatches);
     document.getElementById("teamSearch").addEventListener("change", renderMatches);
     document.getElementById("quietHours").addEventListener("change", renderMatches);
+
 
   })();
   </script>
