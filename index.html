@@ -1281,7 +1281,10 @@
       12: { home: 5, away: 1, status: "FT" }, // 06/14 瑞典 5-1 突尼西亞
       14: { home: 0, away: 0, status: "FT" }, // 06/15 西班牙 0-0 維德角
       13: { home: 1, away: 1, status: "FT" }, // 06/15 沙烏地阿拉伯 1-1 烏拉圭
-      16: { home: 1, away: 1, status: "FT" }  // 06/15 比利時 1-1 埃及
+      16: { home: 1, away: 1, status: "FT" }, // 06/15 比利時 1-1 埃及
+      15: { home: 2, away: 2, status: "FT" }, // 06/15 伊朗 2-2 紐西蘭
+      17: { home: 3, away: 1, status: "FT" }, // 06/16 法國 3-1 塞內加爾
+      18: { home: 1, away: 4, status: "FT" }, // 06/16 伊拉克 1-4 挪威
     });
 
     /* ── Pre-compute Taiwan times ───────────────────────── */
@@ -1771,7 +1774,26 @@
     }
 
     /* ── Init ───────────────────────────────────────────── */
-    renderGroups();
+    renderGroups();    renderFilters();
+    renderDateStrip();
+    renderMatches();
+    verifyData();
+    startCountdown();
+    initBackToTop();
+    initTodayButton();
+    checkTimezone();
+
+    // Filter dropdowns: bind change events so picking a team/group re-renders matches
+    document.getElementById("groupFilter").addEventListener("change", renderMatches);
+    document.getElementById("teamSearch").addEventListener("change", renderMatches);
+    document.getElementById("quietHours").addEventListener("change", renderMatches);
+
+
+  })();
+  </script>
+</body>
+</html>
+
     renderFilters();
     renderDateStrip();
     renderMatches();
