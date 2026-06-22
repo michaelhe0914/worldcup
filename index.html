@@ -1303,6 +1303,10 @@
       33: { home: 2, away: 1, status: "FT" }, // 06/20 德國 2-1 象牙海岸
       34: { home: 0, away: 0, status: "FT" }, // 06/20 厄瓜多 0-0 庫拉索
       36: { home: 0, away: 4, status: "FT" }, // 06/21 突尼西亞 0-4 日本
+      38: { home: 4, away: 0, status: "FT" }, // 06/21 西班牙 4-0 沙烏地阿拉伯
+      39: { home: 0, away: 0, status: "FT" }, // 06/21 比利時 0-0 伊朗
+      37: { home: 2, away: 2, status: "FT" }, // 06/21 烏拉圭 2-2 維德角
+      40: { home: 1, away: 3, status: "FT" }, // 06/21 紐西蘭 1-3 埃及
     });
 
     /* ── Pre-compute Taiwan times ───────────────────────── */
@@ -1801,12 +1805,10 @@
     initTodayButton();
     checkTimezone();
 
-    // Filter dropdowns: bind change events so picking a team/group re-renders matches
+    // Filter dropdowns: bind change events so picking a team/group updates the view
     document.getElementById("groupFilter").addEventListener("change", renderMatches);
     document.getElementById("teamSearch").addEventListener("change", renderMatches);
     document.getElementById("quietHours").addEventListener("change", renderMatches);
-
-
   })();
   </script>
 </body>
