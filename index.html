@@ -1311,6 +1311,10 @@
       42: { home: 3, away: 0, status: "FT" }, // 06/22 法國 3-0 伊拉克
       41: { home: 3, away: 2, status: "FT" }, // 06/22 挪威 3-2 塞內加爾
       44: { home: 1, away: 2, status: "FT" }, // 06/22 約旦 1-2 阿爾及利亞
+      47: { home: 5, away: 0, status: "FT" }, // 06/23 葡萄牙 5-0 烏茲別克
+      45: { home: 0, away: 0, status: "FT" }, // 06/23 英格蘭 0-0 迦納
+      46: { home: 0, away: 1, status: "FT" }, // 06/23 巴拿馬 0-1 克羅埃西亞
+      48: { home: 1, away: 0, status: "FT" }, // 06/23 哥倫比亞 1-0 剛果DR
     });
 
     /* ── Pre-compute Taiwan times ───────────────────────── */
@@ -1822,15 +1826,6 @@
         renderMatches();
       });
     });
-  })();
-  </script>
-</body>
-</html>
-
-/group updates the view
-    document.getElementById("groupFilter").addEventListener("change", renderMatches);
-    document.getElementById("teamSearch").addEventListener("change", renderMatches);
-    document.getElementById("quietHours").addEventListener("change", renderMatches);
   })();
   </script>
 </body>
