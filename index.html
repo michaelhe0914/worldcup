@@ -993,6 +993,152 @@
       table { min-width: 0; font-size: 11px; }
       th, td { padding: 7px; }
     }
+
+    /* ── Round of 32 Knockout ─────────────────────────────── */
+    .knockout-panel {
+      padding: 24px;
+      margin-top: 16px;
+    }
+
+    .r32-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin: 4px 0 18px;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+    .r32-legend b { color: var(--ink); font-weight: 800; }
+
+    .r32-day {
+      margin-bottom: 22px;
+    }
+    .r32-day:last-child { margin-bottom: 0; }
+
+    .r32-day-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--line);
+    }
+    .r32-day-head .twd {
+      font-weight: 900;
+      font-size: 15px;
+      color: var(--accent-ink);
+    }
+    .r32-day-head .etd {
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+
+    .r32-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+    }
+
+    .r32-card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+    }
+    .r32-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(13,148,136,.3);
+    }
+
+    .r32-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .r32-no {
+      display: inline-grid;
+      place-items: center;
+      min-width: 34px;
+      height: 26px;
+      padding: 0 8px;
+      border-radius: 8px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      font-weight: 900;
+      font-size: 12.5px;
+    }
+    .r32-time {
+      text-align: right;
+      line-height: 1.25;
+    }
+    .r32-time .tw {
+      font-weight: 900;
+      font-size: 15px;
+      color: var(--ink);
+    }
+    .r32-time .et {
+      display: block;
+      color: var(--muted);
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+
+    .r32-teams {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .r32-slot {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      background: var(--surface-hover);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .r32-slot .pos {
+      display: inline-grid;
+      place-items: center;
+      min-width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .r32-slot .pos.win { background: var(--gold); }
+    .r32-slot .pos.run { background: var(--accent); }
+    .r32-slot .pos.third { background: #8b5cf6; }
+    .r32-vs {
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      margin: 1px 0;
+    }
+
+    .r32-venue {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .r32-venue .city { font-weight: 800; color: var(--ink); }
+
+    @media (max-width: 560px) {
+      .knockout-panel { padding: 18px 14px; }
+      .r32-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -1079,6 +1225,19 @@
 
     <section class="match-section" id="matchSection" aria-live="polite"></section>
     <div class="empty" id="emptyState">目前篩選條件沒有符合的賽事。</div>
+
+    <section class="panel knockout-panel" id="knockout" aria-label="32 強淘汰賽對戰表">
+      <div class="section-title">
+        <h2>🏆 32 強淘汰賽對戰表</h2>
+        <span>Round of 32 ・ 06/28 – 07/03（美國東部時間）</span>
+      </div>
+      <div class="r32-legend">
+        <span><span class="r32-slot" style="display:inline-flex;padding:2px 8px"><span class="pos win">冠</span></span> 小組冠軍</span>
+        <span><span class="r32-slot" style="display:inline-flex;padding:2px 8px"><span class="pos run">亞</span></span> 小組亞軍</span>
+        <span><span class="r32-slot" style="display:inline-flex;padding:2px 8px"><span class="pos third">三</span></span> 最佳第三名（待 6/27 小組賽全部結束後確定）</span>
+      </div>
+      <div id="r32Container"></div>
+    </section>
 
     <section class="sources">
       <strong>📋 來源與註記</strong>
@@ -1327,6 +1486,12 @@
       58: { home: 1, away: 3, status: "FT" }, // 06/25 突尼西亞 1-3 荷蘭
       59: { home: 3, away: 2, status: "FT" }, // 06/25 土耳其 3-2 美國
       60: { home: 0, away: 0, status: "FT" }, // 06/25 巴拉圭 0-0 澳洲
+      61: { home: 1, away: 4, status: "FT" }, // 06/26 挪威 1-4 法國
+      62: { home: 5, away: 0, status: "FT" }, // 06/26 塞內加爾 5-0 伊拉克
+      65: { home: 0, away: 0, status: "FT" }, // 06/26 維德角 0-0 沙烏地阿拉伯
+      66: { home: 0, away: 1, status: "FT" }, // 06/26 烏拉圭 0-1 西班牙
+      63: { home: 1, away: 1, status: "FT" }, // 06/26 埃及 1-1 伊朗
+      64: { home: 1, away: 5, status: "FT" }, // 06/26 紐西蘭 1-5 比利時
     });
 
     /* ── Pre-compute Taiwan times ───────────────────────── */
@@ -1815,10 +1980,89 @@
       }
     }
 
+    /* ── Round of 32 (淘汰賽 32 強) ───────────────────────── */
+    // etTime 為美國東部時間 (EDT, UTC-4)；台灣時間沿用 computeTaiwan 自動換算。
+    // 小組賽於 6/27 全部結束後，placeholder 才會填入實際隊伍。
+    // 來源：FIFA 官方賽程 + Wikipedia 2026 World Cup knockout stage（Annex C 對戰規則）。
+    const r32Matches = Object.freeze([
+      { no: 73, etDate: "2026-06-28", etTime: "15:00", venue: "洛杉磯",       home: { t: "run", g: "A" }, away: { t: "run", g: "B" } },
+      { no: 76, etDate: "2026-06-29", etTime: "13:00", venue: "休士頓",       home: { t: "win", g: "C" }, away: { t: "run", g: "F" } },
+      { no: 74, etDate: "2026-06-29", etTime: "16:30", venue: "波士頓",       home: { t: "win", g: "E" }, away: { t: "third", g: "A/B/C/D/F" } },
+      { no: 75, etDate: "2026-06-29", etTime: "21:00", venue: "蒙特雷",       home: { t: "win", g: "F" }, away: { t: "run", g: "C" } },
+      { no: 78, etDate: "2026-06-30", etTime: "13:00", venue: "達拉斯",       home: { t: "run", g: "E" }, away: { t: "run", g: "I" } },
+      { no: 77, etDate: "2026-06-30", etTime: "17:00", venue: "紐約 / 紐澤西", home: { t: "win", g: "I" }, away: { t: "third", g: "C/D/F/G/H" } },
+      { no: 79, etDate: "2026-06-30", etTime: "21:00", venue: "墨西哥城",     home: { t: "win", g: "A" }, away: { t: "third", g: "C/E/F/H/I" } },
+      { no: 80, etDate: "2026-07-01", etTime: "12:00", venue: "亞特蘭大",     home: { t: "win", g: "L" }, away: { t: "third", g: "E/H/I/J/K" } },
+      { no: 82, etDate: "2026-07-01", etTime: "16:00", venue: "西雅圖",       home: { t: "win", g: "G" }, away: { t: "third", g: "A/E/H/I/J" } },
+      { no: 81, etDate: "2026-07-01", etTime: "20:00", venue: "舊金山灣區",   home: { t: "win", g: "D" }, away: { t: "third", g: "B/E/F/I/J" } },
+      { no: 84, etDate: "2026-07-02", etTime: "15:00", venue: "洛杉磯",       home: { t: "win", g: "H" }, away: { t: "run", g: "J" } },
+      { no: 83, etDate: "2026-07-02", etTime: "19:00", venue: "多倫多",       home: { t: "run", g: "K" }, away: { t: "run", g: "L" } },
+      { no: 85, etDate: "2026-07-02", etTime: "23:00", venue: "溫哥華",       home: { t: "win", g: "B" }, away: { t: "third", g: "E/F/G/I/J" } },
+      { no: 88, etDate: "2026-07-03", etTime: "14:00", venue: "達拉斯",       home: { t: "run", g: "D" }, away: { t: "run", g: "G" } },
+      { no: 86, etDate: "2026-07-03", etTime: "18:00", venue: "邁阿密",       home: { t: "win", g: "J" }, away: { t: "run", g: "H" } },
+      { no: 87, etDate: "2026-07-03", etTime: "21:30", venue: "堪薩斯城",     home: { t: "win", g: "K" }, away: { t: "third", g: "D/E/I/J/L" } }
+    ]);
+
+    const POS_META = { win: { cls: "win", badge: "冠", label: g => `${g} 組冠軍` },
+                       run: { cls: "run", badge: "亞", label: g => `${g} 組亞軍` },
+                       third: { cls: "third", badge: "三", label: g => `${g} 最佳第三名` } };
+
+    function r32SlotHtml(slot) {
+      const m = POS_META[slot.t];
+      return `<div class="r32-slot"><span class="pos ${m.cls}">${m.badge}</span><span>${escapeHtml(m.label(slot.g))}</span></div>`;
+    }
+
+    function renderKnockout() {
+      const container = document.getElementById("r32Container");
+      if (!container) return;
+
+      // 預先計算台灣時間並依「台灣日期」分組
+      const enriched = r32Matches.map(m => ({ ...m, tw: computeTaiwan(m), stadium: stadiumByVenue[m.venue] || "" }));
+      const byDay = new Map();
+      enriched.forEach(m => {
+        if (!byDay.has(m.tw.dateKey)) byDay.set(m.tw.dateKey, []);
+        byDay.get(m.tw.dateKey).push(m);
+      });
+
+      const days = [...byDay.keys()].sort();
+      container.innerHTML = days.map(key => {
+        const list = byDay.get(key).sort((a, b) => a.tw.date - b.tw.date);
+        const twLabel = list[0].tw.dateLabel;
+        const cards = list.map(m => `
+          <div class="r32-card">
+            <div class="r32-card-top">
+              <span class="r32-no">M${m.no}</span>
+              <span class="r32-time">
+                <span class="tw">${m.tw.dateLabel} ${m.tw.timeLabel}</span>
+                <span class="et">美東 ${m.etDate.slice(5).replace("-", "/")} ${m.etTime}</span>
+              </span>
+            </div>
+            <div class="r32-teams">
+              ${r32SlotHtml(m.home)}
+              <div class="r32-vs">VS</div>
+              ${r32SlotHtml(m.away)}
+            </div>
+            <div class="r32-venue">
+              <span class="city">📍 ${escapeHtml(m.venue)}</span>
+              <span>${escapeHtml(m.stadium || "待 FIFA 確認")}</span>
+            </div>
+          </div>`).join("");
+        return `
+          <div class="r32-day">
+            <div class="r32-day-head">
+              <span class="twd">🇹🇼 ${escapeHtml(twLabel)}</span>
+              <span class="etd">（台灣時間）</span>
+            </div>
+            <div class="r32-grid">${cards}</div>
+          </div>`;
+      }).join("");
+    }
+
     /* ── Init ───────────────────────────────────────────── */
     renderGroups();    renderFilters();
     renderDateStrip();
     renderMatches();
+    renderKnockout();
     verifyData();
     startCountdown();
     initBackToTop();
