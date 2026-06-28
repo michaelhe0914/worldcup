@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="2026 FIFA 世界盃第一輪小組賽完整賽程，以台灣時間 (UTC+8) 呈現。涵蓋 48 隊、12 組、72 場比賽的日期、時間與場地資訊。">
-  <title>2026 FIFA World Cup 第一輪小組賽台灣時間表</title>
+  <meta name="description" content="2026 FIFA 世界盃 32 強淘汰賽 (Round of 32) 對戰表，含台灣時間 (UTC+8)、美東時間與當地球場開球時間、場館與對戰組合。">
+  <title>2026 FIFA World Cup 32 強淘汰賽對戰表（台灣時間）</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -1144,6 +1144,7 @@
       font-size: 12.5px;
     }
     .r32-venue .city { font-weight: 800; color: var(--ink); }
+    .r32-venue .r32-local { color: var(--blue-dark); font-weight: 700; }
 
     @media (max-width: 560px) {
       .knockout-panel { padding: 18px 14px; }
@@ -1161,20 +1162,20 @@
           <div class="mark">26</div>
           <div>
             <small>FIFA World Cup 2026</small>
-            <h1>第一輪小組賽<br>台灣時間表</h1>
+            <h1>32 強淘汰賽<br>對戰表</h1>
           </div>
         </div>
-        <p class="hero-note">資料版本：FIFA 官方賽程 PDF，2026-04-10。台灣時間為 UTC+8；「當地場館時間」依各場館所在時區換算（含夏令時間）。</p>
+        <p class="hero-note">Round of 32。每場附台灣時間 (UTC+8)、美東時間，以及「當地球場開球時間」（依各場館時區換算，含夏令時間）。標示國旗者為已確定晉級隊伍。</p>
       </div>
       <div class="hero-kpis">
-        <div class="hero-kpi"><strong id="teamCount">48</strong><span>參賽隊伍</span></div>
-        <div class="hero-kpi"><strong id="groupCount">12</strong><span>分組 A – L</span></div>
-        <div class="hero-kpi"><strong id="matchCount">72</strong><span>第一輪賽事</span></div>
-        <div class="hero-kpi"><strong>6/12 – 6/28</strong><span>台灣收看日期</span></div>
+        <div class="hero-kpi"><strong>32</strong><span>晉級隊伍</span></div>
+        <div class="hero-kpi"><strong>16</strong><span>淘汰賽事</span></div>
+        <div class="hero-kpi"><strong>16</strong><span>主辦城市</span></div>
+        <div class="hero-kpi"><strong>6/29 – 7/4</strong><span>台灣收看日期</span></div>
       </div>
     </div>
     <div class="countdown-bar" id="countdownBar">
-      <span class="label" id="countdownLabel">距離首場開賽</span>
+      <span class="label" id="countdownLabel">距離下一場 32 強開賽</span>
       <div class="countdown-digits" id="countdownDigits">
         <div class="cd-unit"><span class="cd-num" id="cdDays">--</span><span class="cd-label">天</span></div>
         <div class="cd-unit"><span class="cd-num" id="cdHours">--</span><span class="cd-label">時</span></div>
@@ -1189,57 +1190,10 @@
       ⚠️ 你的裝置時區並非台灣 (UTC+8)。本頁所有時間均以台灣時間 (Asia/Taipei) 顯示。
     </div>
 
-    <section class="panel timeline-panel" aria-label="台灣時間分布圖">
-      <div class="section-title">
-        <h2>📊 台灣時間分布</h2>
-        <span>每格代表當日一場賽事</span>
-      </div>
-      <div class="date-strip" id="dateStrip"></div>
-    </section>
-
-    <div class="legend">
-      <div class="legend-item"><span class="legend-dot default"></span> 白天 / 下午</div>
-      <div class="legend-item"><span class="legend-dot night"></span> 深夜 (00:00–05:59)</div>
-      <div class="legend-item"><span class="legend-dot morning"></span> 早晨 (06:00–09:59)</div>
-    </div>
-
-    <section class="controls" aria-label="篩選工具" id="controlsBar">
-      <label>
-        組別
-        <select id="groupFilter">
-          <option value="all">全部組別</option>
-        </select>
-      </label>
-      <label>
-        隊伍
-        <select id="teamSearch">
-          <option value="">全部隊伍</option>
-        </select>
-      </label>
-      <label class="toggle">
-        <input id="quietHours" type="checkbox">
-        深夜 / 早晨
-      </label>
-      <button class="btn-today" id="btnToday" type="button">📅 今日賽事</button>
-    </section>
-
-    <div class="result-status" id="resultStatus"></div>
-
-    <section id="groupsOverview">
-      <div class="section-title">
-        <h2>🏆 第一輪參與隊伍</h2>
-        <span>12 組，每組 4 隊</span>
-      </div>
-      <div class="groups" id="groupsGrid"></div>
-    </section>
-
-    <section class="match-section" id="matchSection" aria-live="polite"></section>
-    <div class="empty" id="emptyState">目前篩選條件沒有符合的賽事。</div>
-
     <section class="panel knockout-panel" id="knockout" aria-label="32 強淘汰賽對戰表">
       <div class="section-title">
         <h2>🏆 32 強淘汰賽對戰表</h2>
-        <span>Round of 32 ・ 06/28 – 07/03（美國東部時間）</span>
+        <span>Round of 32 ・ 美東 06/28 – 07/03</span>
       </div>
       <div class="r32-legend">
         <span><span class="r32-slot" style="display:inline-flex;padding:2px 8px"><span class="pos win">冠</span></span> 小組冠軍</span>
@@ -1851,11 +1805,14 @@
       const minsEl = document.getElementById("cdMins");
       const secsEl = document.getElementById("cdSecs");
 
-      // Find the next upcoming match
+      // Find the next upcoming Round of 32 match
+      const r32list = r32Matches
+        .map(m => ({ no: m.no, date: computeTaiwan(m).date }))
+        .sort((a, b) => a.date - b.date);
       function getTarget() {
         const now = new Date();
-        for (const m of matches) {
-          if (m.tw.date > now) return { date: m.tw.date, no: m.no, label: "距離下一場開賽" };
+        for (const m of r32list) {
+          if (m.date > now) return { date: m.date, no: m.no, label: "距離下一場 32 強開賽" };
         }
         return null; // All matches have passed
       }
@@ -1865,7 +1822,7 @@
         const now = new Date();
 
         if (!target) {
-          label.textContent = "🎉 所有第一輪小組賽已結束！";
+          label.textContent = "🎉 32 強淘汰賽已全部開打！";
           bar.classList.add("finished");
           document.getElementById("countdownDigits").style.display = "none";
           return;
@@ -2037,7 +1994,7 @@
       if (!container) return;
 
       // 預先計算台灣時間並依「台灣日期」分組
-      const enriched = r32Matches.map(m => ({ ...m, tw: computeTaiwan(m), stadium: stadiumByVenue[m.venue] || "" }));
+      const enriched = r32Matches.map(m => ({ ...m, tw: computeTaiwan(m), local: computeLocal(m), stadium: stadiumByVenue[m.venue] || "" }));
       const byDay = new Map();
       enriched.forEach(m => {
         if (!byDay.has(m.tw.dateKey)) byDay.set(m.tw.dateKey, []);
@@ -2065,6 +2022,7 @@
             <div class="r32-venue">
               <span class="city">📍 ${escapeHtml(m.venue)}</span>
               <span>${escapeHtml(m.stadium || "待 FIFA 確認")}</span>
+              <span class="r32-local">🕐 當地開球時間 ${m.local.dateLabel} ${m.local.timeLabel}</span>
             </div>
           </div>`).join("");
         return `
@@ -2079,29 +2037,10 @@
     }
 
     /* ── Init ───────────────────────────────────────────── */
-    renderGroups();    renderFilters();
-    renderDateStrip();
-    renderMatches();
     renderKnockout();
-    verifyData();
     startCountdown();
     initBackToTop();
-    initTodayButton();
     checkTimezone();
-
-    // Filter dropdowns: bind change events so picking a team/ group / quiet-hours re-renders the match list
-    ["groupFilter", "teamSearch", "quietHours"].forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.addEventListener("change", () => {
-        if (todayOnlyKey) {
-          todayOnlyKey = null;
-          const todayBtn = document.getElementById("btnToday");
-          if (todayBtn) todayBtn.textContent = "📅 今日賽事";
-        }
-        renderMatches();
-      });
-    });
   })();
   </script>
 </body>
