@@ -1199,7 +1199,7 @@
         <span><span class="r32-slot" style="display:inline-flex;padding:2px 8px"><span class="pos win">冠</span></span> 小組冠軍</span>
         <span><span class="r32-slot" style="display:inline-flex;padding:2px 8px"><span class="pos run">亞</span></span> 小組亞軍</span>
         <span><span class="r32-slot" style="display:inline-flex;padding:2px 8px"><span class="pos third">三</span></span> 最佳第三名</span>
-        <span>🏳️ 標示國旗者為已確定晉級隊伍；其餘待最終名次與最佳第三名排名出爐後補上。</span>
+        <span>✅ 32 強對戰已全部確定（小組賽於 6/27 結束）。</span>
       </div>
       <div id="r32Container"></div>
     </section>
@@ -1959,22 +1959,22 @@
     // 小組賽於 6/27 全部結束後，placeholder 才會填入實際隊伍。
     // 來源：FIFA 官方賽程 + Wikipedia 2026 World Cup knockout stage（Annex C 對戰規則）。
     const r32Matches = Object.freeze([
-      { no: 73, etDate: "2026-06-28", etTime: "15:00", venue: "洛杉磯",       home: { t: "run", g: "A", team: { code: "RSA", zh: "南非" } },   away: { t: "run", g: "B", team: { code: "CAN", zh: "加拿大" } } },
-      { no: 76, etDate: "2026-06-29", etTime: "13:00", venue: "休士頓",       home: { t: "win", g: "C", team: { code: "BRA", zh: "巴西" } },   away: { t: "run", g: "F", team: { code: "JPN", zh: "日本" } } },
-      { no: 74, etDate: "2026-06-29", etTime: "16:30", venue: "波士頓",       home: { t: "win", g: "E", team: { code: "GER", zh: "德國" } },   away: { t: "third", g: "A/B/C/D/F" } },
-      { no: 75, etDate: "2026-06-29", etTime: "21:00", venue: "蒙特雷",       home: { t: "win", g: "F", team: { code: "NED", zh: "荷蘭" } },   away: { t: "run", g: "C", team: { code: "MAR", zh: "摩洛哥" } } },
+      { no: 73, etDate: "2026-06-28", etTime: "15:00", venue: "洛杉磯",       home: { t: "run", g: "A", team: { code: "RSA", zh: "南非" } },     away: { t: "run", g: "B", team: { code: "CAN", zh: "加拿大" } } },
+      { no: 76, etDate: "2026-06-29", etTime: "13:00", venue: "休士頓",       home: { t: "win", g: "C", team: { code: "BRA", zh: "巴西" } },     away: { t: "run", g: "F", team: { code: "JPN", zh: "日本" } } },
+      { no: 74, etDate: "2026-06-29", etTime: "16:30", venue: "波士頓",       home: { t: "win", g: "E", team: { code: "GER", zh: "德國" } },     away: { t: "third", g: "D", team: { code: "PAR", zh: "巴拉圭" } } },
+      { no: 75, etDate: "2026-06-29", etTime: "21:00", venue: "蒙特雷",       home: { t: "win", g: "F", team: { code: "NED", zh: "荷蘭" } },     away: { t: "run", g: "C", team: { code: "MAR", zh: "摩洛哥" } } },
       { no: 78, etDate: "2026-06-30", etTime: "13:00", venue: "達拉斯",       home: { t: "run", g: "E", team: { code: "CIV", zh: "象牙海岸" } }, away: { t: "run", g: "I", team: { code: "NOR", zh: "挪威" } } },
-      { no: 77, etDate: "2026-06-30", etTime: "17:00", venue: "紐約 / 紐澤西", home: { t: "win", g: "I", team: { code: "FRA", zh: "法國" } },   away: { t: "third", g: "C/D/F/G/H" } },
-      { no: 79, etDate: "2026-06-30", etTime: "21:00", venue: "墨西哥城",     home: { t: "win", g: "A", team: { code: "MEX", zh: "墨西哥" } }, away: { t: "third", g: "C/E/F/H/I" } },
-      { no: 80, etDate: "2026-07-01", etTime: "12:00", venue: "亞特蘭大",     home: { t: "win", g: "L" }, away: { t: "third", g: "E/H/I/J/K" } },
-      { no: 82, etDate: "2026-07-01", etTime: "16:00", venue: "西雅圖",       home: { t: "win", g: "G" }, away: { t: "third", g: "A/E/H/I/J" } },
-      { no: 81, etDate: "2026-07-01", etTime: "20:00", venue: "舊金山灣區",   home: { t: "win", g: "D", team: { code: "USA", zh: "美國" } },   away: { t: "third", g: "B/E/F/I/J", team: { code: "BIH", zh: "波士尼亞與赫塞哥維納" } } },
-      { no: 84, etDate: "2026-07-02", etTime: "15:00", venue: "洛杉磯",       home: { t: "win", g: "H", team: { code: "ESP", zh: "西班牙" } }, away: { t: "run", g: "J" } },
-      { no: 83, etDate: "2026-07-02", etTime: "19:00", venue: "多倫多",       home: { t: "run", g: "K" }, away: { t: "run", g: "L" } },
-      { no: 85, etDate: "2026-07-02", etTime: "23:00", venue: "溫哥華",       home: { t: "win", g: "B", team: { code: "SUI", zh: "瑞士" } },   away: { t: "third", g: "E/F/G/I/J" } },
-      { no: 88, etDate: "2026-07-03", etTime: "14:00", venue: "達拉斯",       home: { t: "run", g: "D", team: { code: "AUS", zh: "澳洲" } },   away: { t: "run", g: "G" } },
-      { no: 86, etDate: "2026-07-03", etTime: "18:00", venue: "邁阿密",       home: { t: "win", g: "J", team: { code: "ARG", zh: "阿根廷" } }, away: { t: "run", g: "H", team: { code: "CPV", zh: "維德角" } } },
-      { no: 87, etDate: "2026-07-03", etTime: "21:30", venue: "堪薩斯城",     home: { t: "win", g: "K" }, away: { t: "third", g: "D/E/I/J/L" } }
+      { no: 77, etDate: "2026-06-30", etTime: "17:00", venue: "紐約 / 紐澤西", home: { t: "win", g: "I", team: { code: "FRA", zh: "法國" } },     away: { t: "third", g: "F", team: { code: "SWE", zh: "瑞典" } } },
+      { no: 79, etDate: "2026-06-30", etTime: "21:00", venue: "墨西哥城",     home: { t: "win", g: "A", team: { code: "MEX", zh: "墨西哥" } },   away: { t: "third", g: "E", team: { code: "ECU", zh: "厄瓜多" } } },
+      { no: 80, etDate: "2026-07-01", etTime: "12:00", venue: "亞特蘭大",     home: { t: "win", g: "L", team: { code: "ENG", zh: "英格蘭" } },   away: { t: "third", g: "K", team: { code: "COD", zh: "民主剛果" } } },
+      { no: 82, etDate: "2026-07-01", etTime: "16:00", venue: "西雅圖",       home: { t: "win", g: "G", team: { code: "BEL", zh: "比利時" } },   away: { t: "third", g: "I", team: { code: "SEN", zh: "塞內加爾" } } },
+      { no: 81, etDate: "2026-07-01", etTime: "20:00", venue: "舊金山灣區",   home: { t: "win", g: "D", team: { code: "USA", zh: "美國" } },     away: { t: "third", g: "B", team: { code: "BIH", zh: "波赫" } } },
+      { no: 84, etDate: "2026-07-02", etTime: "15:00", venue: "洛杉磯",       home: { t: "win", g: "H", team: { code: "ESP", zh: "西班牙" } },   away: { t: "run", g: "J", team: { code: "AUT", zh: "奧地利" } } },
+      { no: 83, etDate: "2026-07-02", etTime: "19:00", venue: "多倫多",       home: { t: "run", g: "K", team: { code: "POR", zh: "葡萄牙" } },   away: { t: "run", g: "L", team: { code: "CRO", zh: "克羅埃西亞" } } },
+      { no: 85, etDate: "2026-07-02", etTime: "23:00", venue: "溫哥華",       home: { t: "win", g: "B", team: { code: "SUI", zh: "瑞士" } },     away: { t: "third", g: "J", team: { code: "ALG", zh: "阿爾及利亞" } } },
+      { no: 88, etDate: "2026-07-03", etTime: "14:00", venue: "達拉斯",       home: { t: "run", g: "D", team: { code: "AUS", zh: "澳洲" } },     away: { t: "run", g: "G", team: { code: "EGY", zh: "埃及" } } },
+      { no: 86, etDate: "2026-07-03", etTime: "18:00", venue: "邁阿密",       home: { t: "win", g: "J", team: { code: "ARG", zh: "阿根廷" } },   away: { t: "run", g: "H", team: { code: "CPV", zh: "維德角" } } },
+      { no: 87, etDate: "2026-07-03", etTime: "21:30", venue: "堪薩斯城",     home: { t: "win", g: "K", team: { code: "COL", zh: "哥倫比亞" } }, away: { t: "third", g: "L", team: { code: "GHA", zh: "迦納" } } }
     ]);
 
     const POS_META = { win: { cls: "win", badge: "冠", label: g => `${g} 組冠軍` },
