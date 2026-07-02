@@ -1146,6 +1146,22 @@
     .r32-venue .city { font-weight: 800; color: var(--ink); }
     .r32-venue .r32-local { color: var(--blue-dark); font-weight: 700; }
 
+    /* ── Round of 16 pending-slot additions ──────────────── */
+    .r32-slot .pos.pend { background: #94a3b8; }
+    .r16-pending-teams {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 13px;
+    }
+    .r16-pending-teams img { width: 18px; }
+    .r16-or {
+      color: var(--muted);
+      font-weight: 800;
+      margin: 0 1px;
+    }
+
     @media (max-width: 560px) {
       .knockout-panel { padding: 18px 14px; }
       .r32-grid { grid-template-columns: 1fr; }
@@ -1169,9 +1185,9 @@
       </div>
       <div class="hero-kpis">
         <div class="hero-kpi"><strong>32</strong><span>晉級隊伍</span></div>
-        <div class="hero-kpi"><strong>16</strong><span>淘汰賽事</span></div>
+        <div class="hero-kpi"><strong>24</strong><span>淘汰賽事</span></div>
         <div class="hero-kpi"><strong>16</strong><span>主辦城市</span></div>
-        <div class="hero-kpi"><strong>6/29 – 7/4</strong><span>台灣收看日期</span></div>
+        <div class="hero-kpi"><strong>6/29 – 7/8</strong><span>台灣收看日期</span></div>
       </div>
     </div>
     <div class="countdown-bar" id="countdownBar">
@@ -1202,6 +1218,19 @@
         <span>✅ 32 強對戰已全部確定（小組賽於 6/27 結束）。</span>
       </div>
       <div id="r32Container"></div>
+    </section>
+
+    <section class="panel knockout-panel" id="knockout16" aria-label="16 強淘汰賽對戰表">
+      <div class="section-title">
+        <h2>🥈 16 強淘汰賽對戰表</h2>
+        <span>Round of 16 ・ 美東 07/04 – 07/07</span>
+      </div>
+      <div class="r32-legend">
+        <span><span class="r32-slot" style="display:inline-flex;padding:2px 8px"><span class="pos pend">待</span></span> 待 32 強賽果確定</span>
+        <span>✅ M89、M90、M91、M92、M94 已確定對戰隊伍。</span>
+        <span>⚠️ M93、M95、M96 尚待 7/2－7/3 的 32 強賽事結果出爐。</span>
+      </div>
+      <div id="r16Container"></div>
     </section>
 
     <section class="sources">
@@ -1805,14 +1834,15 @@
       const minsEl = document.getElementById("cdMins");
       const secsEl = document.getElementById("cdSecs");
 
-      // Find the next upcoming Round of 32 match
-      const r32list = r32Matches
-        .map(m => ({ no: m.no, date: computeTaiwan(m).date }))
-        .sort((a, b) => a.date - b.date);
+      // Find the next upcoming knockout match (Round of 32, then Round of 16)
+      const knockoutList = [
+        ...r32Matches.map(m => ({ no: m.no, date: computeTaiwan(m).date, label: "距離下一場 32 強開賽" })),
+        ...r16Matches.map(m => ({ no: m.no, date: computeTaiwan(m).date, label: "距離下一場 16 強開賽" }))
+      ].sort((a, b) => a.date - b.date);
       function getTarget() {
         const now = new Date();
-        for (const m of r32list) {
-          if (m.date > now) return { date: m.date, no: m.no, label: "距離下一場 32 強開賽" };
+        for (const m of knockoutList) {
+          if (m.date > now) return { date: m.date, no: m.no, label: m.label };
         }
         return null; // All matches have passed
       }
@@ -1822,7 +1852,7 @@
         const now = new Date();
 
         if (!target) {
-          label.textContent = "🎉 32 強淘汰賽已全部開打！";
+          label.textContent = "🎉 32 強、16 強賽事已全部開打！";
           bar.classList.add("finished");
           document.getElementById("countdownDigits").style.display = "none";
           return;
@@ -2036,8 +2066,96 @@
       }).join("");
     }
 
+    /* ── Round of 16 (淘汰賽 16 強) ───────────────────────── */
+    // 對戰依 FIFA 官方 32強→16強 對戰表（Match 89–96）；勝方已知時直接填入國家，
+    // 尚未賽出的 32 強場次（M83/84/85/86/87/88）以「Mxx 勝者」+ 兩個候選隊伍呈現。
+    // 來源：FIFA 官方賽程結構 + 2026-07-02 當日最新 32 強戰況。
+    const r16Matches = Object.freeze([
+      { no: 89, etDate: "2026-07-04", etTime: "17:00", venue: "費城",
+        home: { r32: 74, team: { code: "PAR", zh: "巴拉圭" } },
+        away: { r32: 77, team: { code: "FRA", zh: "法國" } } },
+      { no: 90, etDate: "2026-07-04", etTime: "13:00", venue: "休士頓",
+        home: { r32: 73, team: { code: "CAN", zh: "加拿大" } },
+        away: { r32: 75, team: { code: "MAR", zh: "摩洛哥" } } },
+      { no: 91, etDate: "2026-07-05", etTime: "16:00", venue: "紐約 / 紐澤西",
+        home: { r32: 76, team: { code: "BRA", zh: "巴西" } },
+        away: { r32: 78, team: { code: "NOR", zh: "挪威" } } },
+      { no: 92, etDate: "2026-07-05", etTime: "20:00", venue: "墨西哥城",
+        home: { r32: 79, team: { code: "MEX", zh: "墨西哥" } },
+        away: { r32: 80, team: { code: "ENG", zh: "英格蘭" } } },
+      { no: 93, etDate: "2026-07-06", etTime: "15:00", venue: "達拉斯",
+        home: { r32: 83, pending: [{ code: "POR", zh: "葡萄牙" }, { code: "CRO", zh: "克羅埃西亞" }] },
+        away: { r32: 84, pending: [{ code: "ESP", zh: "西班牙" }, { code: "AUT", zh: "奧地利" }] } },
+      { no: 94, etDate: "2026-07-06", etTime: "20:00", venue: "西雅圖",
+        home: { r32: 81, team: { code: "USA", zh: "美國" } },
+        away: { r32: 82, team: { code: "BEL", zh: "比利時" } } },
+      { no: 95, etDate: "2026-07-07", etTime: "12:00", venue: "亞特蘭大",
+        home: { r32: 86, pending: [{ code: "ARG", zh: "阿根廷" }, { code: "CPV", zh: "維德角" }] },
+        away: { r32: 88, pending: [{ code: "AUS", zh: "澳洲" }, { code: "EGY", zh: "埃及" }] } },
+      { no: 96, etDate: "2026-07-07", etTime: "16:00", venue: "溫哥華",
+        home: { r32: 85, pending: [{ code: "SUI", zh: "瑞士" }, { code: "ALG", zh: "阿爾及利亞" }] },
+        away: { r32: 87, pending: [{ code: "COL", zh: "哥倫比亞" }, { code: "GHA", zh: "迦納" }] } }
+    ]);
+
+    function r16SlotHtml(slot) {
+      if (slot.team) {
+        return `<div class="r32-slot r32-confirmed">${flag(slot.team.code)}<span class="r32-team">${escapeHtml(slot.team.zh)}</span></div>`;
+      }
+      const cands = slot.pending
+        .map(t => `${flag(t.code)}<span>${escapeHtml(t.zh)}</span>`)
+        .join('<span class="r16-or">/</span>');
+      return `<div class="r32-slot"><span class="pos pend">待</span><span class="r16-pending-teams">M${slot.r32} 勝者：${cands}</span></div>`;
+    }
+
+    function renderKnockout16() {
+      const container = document.getElementById("r16Container");
+      if (!container) return;
+
+      const enriched = r16Matches.map(m => ({ ...m, tw: computeTaiwan(m), local: computeLocal(m), stadium: stadiumByVenue[m.venue] || "" }));
+      const byDay = new Map();
+      enriched.forEach(m => {
+        if (!byDay.has(m.tw.dateKey)) byDay.set(m.tw.dateKey, []);
+        byDay.get(m.tw.dateKey).push(m);
+      });
+
+      const days = [...byDay.keys()].sort();
+      container.innerHTML = days.map(key => {
+        const list = byDay.get(key).sort((a, b) => a.tw.date - b.tw.date);
+        const twLabel = list[0].tw.dateLabel;
+        const cards = list.map(m => `
+          <div class="r32-card">
+            <div class="r32-card-top">
+              <span class="r32-no">M${m.no}</span>
+              <span class="r32-time">
+                <span class="tw">${m.tw.dateLabel} ${m.tw.timeLabel}</span>
+                <span class="et">美東 ${m.etDate.slice(5).replace("-", "/")} ${m.etTime}</span>
+              </span>
+            </div>
+            <div class="r32-teams">
+              ${r16SlotHtml(m.home)}
+              <div class="r32-vs">VS</div>
+              ${r16SlotHtml(m.away)}
+            </div>
+            <div class="r32-venue">
+              <span class="city">📍 ${escapeHtml(m.venue)}</span>
+              <span>${escapeHtml(m.stadium || "待 FIFA 確認")}</span>
+              <span class="r32-local">🕐 當地開球時間 ${m.local.dateLabel} ${m.local.timeLabel}</span>
+            </div>
+          </div>`).join("");
+        return `
+          <div class="r32-day">
+            <div class="r32-day-head">
+              <span class="twd">🇹🇼 ${escapeHtml(twLabel)}</span>
+              <span class="etd">（台灣時間）</span>
+            </div>
+            <div class="r32-grid">${cards}</div>
+          </div>`;
+      }).join("");
+    }
+
     /* ── Init ───────────────────────────────────────────── */
     renderKnockout();
+    renderKnockout16();
     startCountdown();
     initBackToTop();
     checkTimezone();
